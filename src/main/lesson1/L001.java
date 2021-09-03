@@ -42,6 +42,9 @@ public class L001 {
     }
 
     // 基本类型的变量 (基本数据类型是CPU可以直接进行运算的类型)
+    // 变量有两种类型，一种是原始类型，一种是引用类型,如下对应关系
+    // char,boolean,byte,short,int,long,float,double
+    // Character,Boolean,Byte,Short,Integer,Long,Float,Double
     public static void zhen2() {
         byte a = -128;
         short b = -32768 ;
