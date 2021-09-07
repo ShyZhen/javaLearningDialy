@@ -72,7 +72,7 @@ public class L004 {
 
     // 数组是引用类型，并且数组大小不可变
     // 下文中函数其实没改变数组大小，而是类似字符串，只是改变了引用、指向了一个新的数组（原有的4个元素的数组并没有改变）
-    // 但是，如果使用arr[1] = xx进行重新赋值，其实是改变的原本的内存地址，因为int是基本类型，与string不同
+    // 但是，如果使用arr[1] = xx进行重新赋值，其实是改变的是原本的内存地址的值，因为int是基本类型，与string不同（string改变了内存地址，指向新的值的地址）
     public static void func5() {
         int[] arr;
 
@@ -97,7 +97,7 @@ public class L004 {
 
         System.out.println(arr1.length);  // 5
 
-        arr1[1] = "更改键值为1的值,只是更改他的引用";
+        arr1[1] = "更改键值为1的值,只是更改当前值的引用，指向了新的地址的值";
     }
 
     public static void exam() {
