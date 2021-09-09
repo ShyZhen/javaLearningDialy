@@ -57,6 +57,7 @@ interface Person {
     String getName();
 
     // 定义静态函数需要写函数体body
+    // 允许通过将相关的方法内聚在接口中，而不必创建新的对象
     static int getAge() {
         return 0;
     }
