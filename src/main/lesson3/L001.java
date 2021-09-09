@@ -38,8 +38,9 @@ public class L001 {
         System.out.println(Arrays.toString(shyZhen.getHobby()));
     }
 
+    // 基本类型参数的传递，是调用方值的复制。双方各自的后续修改，互不影响。
     // 更改传递的参数，看看对象是否有改变（传递的是引用还是copy的值）
-    // 这里虽然传递的是string，但是更改值的时候是新地址，以前传的值已经无法改变了
+    // 这里虽然传递的是string不是基本类型，但是更改值的时候是新地址，以前传的值已经无法改变了
     public static void func2() {
         Person person = new Person();
         String str1 = "一个简单的字符串";
