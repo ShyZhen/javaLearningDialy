@@ -50,7 +50,7 @@ public class L005 implements Person,Man {
 
 
 
-// 接口不能有字段
+// 接口不能有字段 (interface是可以有静态字段的,且必须为 public static final)
 // 如果一个抽象类没有字段，所有方法全部都是抽象方法,就可以改写为接口interface
 // 一个类只能继承自另一个类，不能从多个类继承。但是，一个类可以实现多个interface
 interface Person {
