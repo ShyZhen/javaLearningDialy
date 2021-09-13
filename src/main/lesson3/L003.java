@@ -52,6 +52,7 @@ public class L003 {
         // Mobile mobile = (Mobile) new BaseServer();
         // System.out.println(mobile.ovrd());
 
+        // 这里向上转型了，调用ovrd的时候优先在子类中调取，子类没有该方法，才会调用父类的方发
         BaseServer baseServer = new Mobile();
         System.out.println("func4:"+baseServer.ovrd());  // func4:mobile的ovrd方法，重写override
     }
@@ -64,7 +65,7 @@ public class L003 {
     }
 
     public static void func6() {
-        Mobile mobile = new Mobile();
+        BaseServer mobile = new Mobile();
         System.out.println(mobile.noOvrd());
     }
 }
