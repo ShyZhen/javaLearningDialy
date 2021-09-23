@@ -2,12 +2,15 @@ package src.main.lesson4.core;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Random;
 
 public class L006Record {
     public static void main(String[] args) {
         func1();
         func2();
         func3();
+        func4();
     }
 
     public static void func1() {
@@ -63,6 +66,13 @@ public class L006Record {
         BigDecimal bd = new BigDecimal("123123123123123.123123123123123");
         System.out.println(bd);
     }
+
+    public static void func4() {
+        MathTest.abs();
+        MathTest.random(10, 20);
+        MathTest.random2();
+        MathTest.random3();
+    }
 }
 
 // 不可变类 没有setXxx、全部属性都是私有化、final，无法被继承者修改
@@ -85,6 +95,80 @@ final class Point {
 
     public String toString() {
         return String.format("Point[x=%s, y=%s]", x, y);
+    }
+
+}
+
+class MathTest {
+    public static void abs() {
+        // abs(number)绝对值
+        System.out.println(Math.abs(-99));
+        System.out.println(Math.abs(-9.9));
+
+        // 最大最下值
+        System.out.println(Math.max(1.9, 40));
+        System.out.println(Math.min(1.9, 40));
+
+        // pow(x,y) x的y次方
+        System.out.println(Math.pow(10,3));  // 1000.0
+
+        // sqrt(x)  开方x  根号x
+        System.out.println(Math.sqrt(2));   // 1.4142135623730951
+
+        // e: 欧拉常数 自然对数的底数 约等于 2.718
+        System.out.println(Math.E);         // 2.718281828459045
+
+        // 计算e的x次方
+        System.out.println(Math.exp(3));
+
+        // 计算以e为底的对数
+        System.out.println(Math.log(4));
+
+        // 计算以10为底的对数
+        System.out.println(Math.log10(1000));   // 3
+
+        // 三角函数
+        Math.sin(3.14); // 0.00159...
+        Math.cos(3.14); // -0.9999...
+        Math.tan(3.14); // -0.0015...
+        Math.asin(1.0); // 1.57079...
+        Math.acos(1.0); // 0.0
+
+        // 生成一个随机数x，x的范围是0 <= x < 1：
+        System.out.println(Math.random());  // 0.22971956916882252
+    }
+
+    // 区间在 min - max 直之间的随机数
+    public static void random(int min, int max) {
+        double x = Math.random();
+        double y = x * (max - min) + min;
+        int n = (int) y;
+
+        System.out.println(y);
+        System.out.println(n);
+    }
+
+    // Math.random()调用的也是Random，是伪随机数，给定一个想同的种子的话，随机数就是一样的。
+    public static void random2() {
+        Random r = new Random();
+        r.nextInt(); // 2071575453,每次都不一样
+        r.nextInt(10); // 5,生成一个[0,10)之间的int
+        r.nextLong(); // 8811649292570369305,每次都不一样
+        r.nextFloat(); // 0.54335...生成一个[0,1)之间的float
+        r.nextDouble(); // 0.3716...生成一个[0,1)之间的double
+
+        System.out.println(r.nextInt(10));
+    }
+
+    // 真·随机数
+    // SecureRandom就是用来创建安全的随机数的
+    // SecureRandom的安全性是通过操作系统提供的安全的随机种子来生成随机数。这个种子是通过CPU的热噪声、读写磁盘的字节、网络流量等各种随机事件产生的“熵”。
+    public static void random3() {
+//        byte[] b = {1,2,4};
+//        byte[] buffer = new byte[16];
+
+        SecureRandom sr = new SecureRandom();
+        System.out.println(sr.nextInt(10));
     }
 
 }
