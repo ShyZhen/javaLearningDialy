@@ -181,7 +181,7 @@ public class L001 {
     }
     public static void func8()
     {
-        // 不是函数抛出的异常，可以不使用try catch
+        // NullPointerException是运行时异常，可以不强制捕获。如果改成其他类型，就必须在方法后throws并捕获，如process3
         // process4(null);
     }
 
@@ -191,6 +191,7 @@ public class L001 {
         }
     }
 
+    // RuntimeException无需强制捕获，非RuntimeException（Checked Exception）需强制捕获，或者用throws声明；
     private static void process4(String s) {
         if (s == null) {
             NullPointerException e = new NullPointerException("process4参数也不能为null");
