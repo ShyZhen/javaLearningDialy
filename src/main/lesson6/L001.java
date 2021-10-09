@@ -174,10 +174,12 @@ public class L001 {
             // 一个Field对象包含了一个字段的所有信息
             // getName()：返回字段名称，例如，"name"；
             // getType()：返回字段类型，也是一个Class实例，例如，String.class；
-            // getModifiers()：返回字段的修饰符，它是一个int，不同的bit表示不同的含义。
+            // getModifiers()：返回字段的修饰符，它是一个int，不同的bit表示不同的含义
             Field ageField = cls1.getField("age");
             System.out.println(ageField.getName());
             System.out.println(ageField.getType());
+
+            // PUBLIC=1, PRIVATE=2, PROTECTED=4, STATIC=8, FINAL=16, SYNCHRONIZED=32, VOLATILE=64, TRANSIENT=128, NATIVE=256, INTERFACE=512, ABSTRACT=1024, STRICT=2048
             System.out.println(ageField.getModifiers());
 
 
