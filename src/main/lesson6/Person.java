@@ -25,4 +25,11 @@ public class Person {
     private static void invokeTest() {
         System.out.println("私有、静态方法,调用");
     }
+
+    public Person() {
+        System.out.println("构造函数");
+    }
+    public Person(String s) {
+        System.out.println("构造函数2:" + s);
+    }
 }

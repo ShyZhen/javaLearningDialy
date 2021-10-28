@@ -1,13 +1,10 @@
 package src.main.lesson6;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.function.Function;
 import java.util.logging.Logger;
 
 // 反射：反射就是Reflection，Java的反射是指程序在运行期可以拿到一个对象的所有信息。
@@ -26,7 +23,9 @@ public class L001 {
 //        func6();
 //        func7();
 //        func8();
-        func9();
+//        func9();
+//        func10();
+        func11();
     }
 
     private static void func1() {
@@ -286,6 +285,49 @@ public class L001 {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             System.out.println(e);
         }
+    }
+
+
+    //  调用类的构造方法
+    public static void func10() {
+        // 1. new操作符 自动调用构造函数
+        Person person = new Person();
+
+        try {
+            // 2. Class.newInstance() 它只能调用该类的public无参数构造方法（带有参数，或者不是public则不可以）,java9将被弃用
+            Person person1 = Person.class.newInstance();
+
+            // 3. Constructor
+            Constructor<Person> constructor1 = Person.class.getConstructor();
+            Constructor<Person> constructor2 = Person.class.getConstructor(String.class);
+            constructor1.newInstance();
+            constructor2.newInstance("33333");
+
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            System.out.println(e);
+        }
+    }
+
+    // 通过Class对象可以获取继承关系：
+    // Class getSuperclass()：获取父类类型；
+    // Class[] getInterfaces()：获取当前类实现的所有接口。
+    public static void func11() {
+        Class<Person> cls = Person.class;
+
+        // 获取父类
+        Class classes = cls.getSuperclass();
+
+        // 获取继承的接口们
+        Class[] interfaces = cls.getInterfaces();
+
+        System.out.println(classes);
+        System.out.println(Arrays.toString(interfaces));
+    }
+
+
+    // 动态代理
+    public static void func12() {
+
     }
 
 
