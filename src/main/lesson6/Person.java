@@ -10,11 +10,19 @@ public class Person {
         return "我叫" + this.name + ", 今年" + this.age + "岁";
     }
 
+    private String intro(int n) {
+        return "重载，我叫" + this.name + ", 今年" + this.age + "岁";
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    private static void invokeTest() {
+        System.out.println("私有、静态方法,调用");
     }
 }

@@ -4,7 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 // 反射：反射就是Reflection，Java的反射是指程序在运行期可以拿到一个对象的所有信息。
@@ -21,7 +24,9 @@ public class L001 {
 //        func1();
 //        func4();
 //        func6();
-        func7();
+//        func7();
+//        func8();
+        func9();
     }
 
     private static void func1() {
@@ -145,6 +150,8 @@ public class L001 {
     // jvm在执行java程序的时候，不是一次性把所有类加载到内存，而是第一次需要使用到的时候才加载。
 
 
+
+
     // 通过类获取字段
     // Field getField(name)：根据字段名获取某个public的field（包括父类）
     // Field getDeclaredField(name)：根据字段名获取当前类的某个field（不包括父类）
@@ -203,7 +210,93 @@ public class L001 {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             System.out.println("没有这个字段");
         }
-
-
     }
+
+
+
+
+    // 获取所有method信息
+    // Method getMethod(name, Class...)：获取某个public的Method（包括父类）
+    // Method getDeclaredMethod(name, Class...)：获取当前类的某个Method（不包括父类,但包括私有）
+    // Method[] getMethods()：获取所有public的Method（包括父类）
+    // Method[] getDeclaredMethods()：获取当前类的所有Method（不包括父类，但包括私有）
+    private static void func8() {
+        Class cls1 = Person.class;
+
+        Person p1 = new Person();
+        Class cls2 = p1.getClass();
+
+        try {
+            // 获取intro方法，携带int参数(用于区分重载)
+            Method introMethod = cls1.getDeclaredMethod("intro", int.class);
+            System.out.println(introMethod);
+
+            Method introMethod2 = cls1.getMethod("intro");
+            System.out.println(introMethod2);
+
+            System.out.println(Arrays.toString(cls1.getMethods()));
+
+
+
+
+            // 一个Method对象包含一个方法的所有信息：
+            // getName()：返回方法名称，例如："getScore"；
+            // getReturnType()：返回方法返回值类型，也是一个Class实例，例如：String.class；
+            // getParameterTypes()：返回方法的参数类型，是一个Class数组，例如：{String.class, int.class}；
+            // getModifiers()：返回方法的修饰符，它是一个int，不同的bit表示不同的含义。
+
+
+
+
+        } catch (NoSuchMethodException | SecurityException e) {
+            System.out.println("没有这个方法");
+        }
+    }
+
+    // 通过反射 调用类方法
+    // 对Method实例调用invoke就相当于调用该方法，invoke的第一个参数是对象实例，即在哪个实例上调用该方法，后面的可变参数要与方法参数一致
+    // 调用静态方法时,invoke方法传入的第一个参数永远为null
+    public static void func9() {
+        Person person = new Person();
+        person.setName("实例1");
+        person.setAge(20);
+
+        Class cls = Person.class;
+
+
+        try {
+            // 获取intro方法，携带int参数(用于区分重载)
+            Method method1 = cls.getMethod("intro");
+            Method method2 = cls.getDeclaredMethod("intro", int.class);  // 私有的，只能用getDeclaredMethod
+            Method method3 = cls.getDeclaredMethod("invokeTest");
+
+            System.out.println(method1);
+            System.out.println(method2);
+            System.out.println(method3);
+
+            // invoke调用
+            // 调用非public方法需要先设置setAccessible
+            method1.setAccessible(true);
+            method2.setAccessible(true);
+            method3.setAccessible(true);
+
+            String s = (String) method2.invoke(person, 222);
+            System.out.println(s);          // 重载，我叫实例1, 今年20岁
+            method3.invoke(null);           // 私有、静态方法,调用
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            System.out.println(e);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
