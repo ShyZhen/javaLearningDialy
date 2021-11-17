@@ -116,6 +116,13 @@ public class FanXing {
         PairNew<Integer> p6 = new PairNew<>(33,22);
         // PairNew<String> p7 = new PairNew<>("sss", "fff");  // 报错，因为已经限制了泛型为继承Number
 
+
+        // <? extends T>类型和<? super T>类型的区别在于：
+        // <? extends T>允许调用读方法T get()获取T的引用，但不允许调用写方法set(T)传入T的引用（传入null除外）；
+        // <? super T>允许调用写方法set(T)传入T的引用，但不允许调用读方法T get()获取T的引用（获取Object除外）。
+        // 一个是允许读不允许写，另一个是允许写不允许读。
+        PairNew<? super Number> p8 = new PairNew<>(33,22);
+
     }
 }
 
