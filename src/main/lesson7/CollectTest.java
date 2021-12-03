@@ -11,7 +11,8 @@ import java.util.*;
  */
 public class CollectTest {
     public static void main(String[] args) {
-        func1();
+        //func1();
+        func3();
     }
 
     public static void func1() {
@@ -55,6 +56,63 @@ public class CollectTest {
 
 
         // Java的集合类定义在java.util包中，支持泛型，主要提供了3种集合类，包括List，Set和Map。Java集合使用统一的Iterator遍历，尽量不要使用遗留接口
+    }
+
+
+    // List 是最基本的一种集合：它是一种有序列表
+    public static void func3() {
+        // list 的行为和数组几乎完全相同，内部按照元素的先后顺序存放，每个元素都可以通过索引确定自己的位置，也是从0开始
+        // 但是，如果我们使用数组，在添加、删除元素的时候，非常不方便，比如删除其中某个元素，实际上是把该位置后面所有元素往前挪一个位置；而添加则是往后挪（因为数组是连续的内存）；这两种操作用数组实现非常麻烦。
+        // 因此，实际应用中，需要增、删的有序列表，我们使用最多的是列表ArrayList。
+        // ArrayList会自动维护顺序，size元素个数，当add的时候如果数组空间不够用了，会申请一个更大的数组，直接copy过去。
+
+        // 数组
+        String[] strings = new String[5];
+        strings[0] = "hh";
+        strings[1] = "oo";
+        strings[2] = "ee";
+        System.out.println(strings[1]);    // oo
+
+        strings[1] = "rr";
+        System.out.println(strings[1]);
+
+        // List
+        List<String> list = new ArrayList<>();
+        list.add("qq");
+        list.add("ww");
+        list.add("ee");
+        System.out.println(list.get(1));    // ww
+
+        list.set(1,"rr");                   // 修改(替换)索引为1的元素（长度不变）
+        System.out.println(list);           // [qq, rr, ee]
+
+        list.add(1, "tt");                  // 指定位置添加
+        System.out.println(list);           // [qq, tt, rr, ee]
+
+        // 元素个数、长度
+        System.out.println(list.size());     // 4
+        System.out.println(strings.length);  // 5
+
+        // ArrayList把添加和删除的操作封装起来，让我们操作List类似于操作数组，却不用关心内部元素如何移动
+        //在末尾添加一个元素：boolean add(E e)
+        //在指定索引添加一个元素：boolean add(int index, E e)
+        //删除指定索引的元素：E remove(int index)
+        //删除某个元素：boolean remove(Object e)
+        //获取指定索引的元素：E get(int index)
+        //获取链表大小（包含元素的个数）：int size()
+
+
+        // LinkedList
+        // LinkedList通过“链表”也实现了List接口，内部每一个元素都指向了下一个元素。
+        // 通常情况下，我们总是优先使用ArrayList。
+
+        //                   ArrayList      LinkedList
+        //
+        //获取指定元素         速度很快	        需要从头开始查找元素
+        //添加元素到末尾 	     速度很快          速度很快
+        //指定位置插入/删除     需要移动元素      不需要移动元素
+        //内存占用             少              较大
+        List<Integer> linkedList = new LinkedList<>();
     }
 
 
