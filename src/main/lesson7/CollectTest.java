@@ -12,7 +12,9 @@ import java.util.*;
 public class CollectTest {
     public static void main(String[] args) {
         //func1();
-        func3();
+        //func3();
+        //func5();
+        func6();
     }
 
     public static void func1() {
@@ -153,5 +155,79 @@ public class CollectTest {
         System.out.println(Arrays.toString(array));    // [index1, index2, index3, null, null]
     }
 
+    public static void func5() {
+        // boolean contains(Object o)方法来判断List是否包含某个指定元素。
+        // int indexOf(Object o)方法可以返回某个元素的索引，如果元素不存在，就返回-1
+        List<String> listA = new ArrayList<>();
+        listA.add("hello");
+        listA.add("world");
+        listA.add("zhen");
+        System.out.println(listA);                     // [hello, world, zhen]
+        System.out.println(listA.contains("zhen"));    // true
+        System.out.println(listA.indexOf("zhen"));     // 2
 
+        // List内部并不是通过==判断两个元素是否相等，而是使用equals()方法判断两个元素是否相等。所以不需要是相同的实例。
+        String str = new String("zhen");
+        System.out.println(listA.contains(str));    // true
+        System.out.println(listA.indexOf(str));     // 2
+
+        // contains原理类似如下
+        System.out.println(containsTest(str, listA));
+    }
+
+    // contains原理类似如下
+    public static Boolean containsTest(String str, List listA) {
+        for (int i = 0; i < listA.size(); i++) {
+            if (str.equals(listA.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 当list中存放对象，使用contains或者indexOf时需要重写equals方法
+    public static void func6() {
+        List personList = new ArrayList();
+        personList.add(new Person("zhen"));
+        personList.add(new Person("li"));
+        personList.add(new Person("song"));
+
+        // 不出意外，虽然放入了new Person("zhen")，但是用另一个new Person("zhen")查询不到，原因就是Person类没有覆写equals()方法。
+        // 重写equals后，personList.contains(new Person("zhen"));  // 已经为true
+        System.out.println(personList.contains(new Person("zhen")));  // false
+    }
+
+}
+
+
+
+// 当list中存放对象，使用contains或者indexOf时需要重写equals方法
+class Person {
+    private String name;
+    public Person(String name) {
+        this.name = name;
+    }
+
+    // 重写equals后，personList.contains(new Person("zhen"));  // 已经为true
+//    public boolean equals(Object o) {
+//        if (o instanceof Person) {
+//            Person p = (Person) o;
+//            return this.name.equals(p.name);
+//        }
+//        return false;
+//    }
+
+    // 重写equals后，personList.contains(new Person("zhen"));  // 已经为true
+    //
+    // 因此，我们总结一下equals()方法的正确编写方法：
+    // 先确定实例“相等”的逻辑，即哪些字段相等，就认为实例相等；
+    // 用instanceof判断传入的待比较的Object是不是当前类型，如果是，继续比较，否则，返回false；
+    // 对引用类型用Objects.equals()比较，对基本类型直接用==比较。
+     public boolean equals(Object o) {
+        if (o instanceof Person) {
+            Person p = (Person) o;
+            return Objects.equals(this.name, p.name);
+        }
+        return false;
+    }
 }
