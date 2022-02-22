@@ -72,6 +72,7 @@ public class MapTest {
 
 
     // 遍历Map
+    // 遍历Map时，不可假设输出的key是有序的！
     public static void func3() {
         Student s1 = new Student("张三", 80);
         Student s2 = new Student("李四", 90);
@@ -90,10 +91,21 @@ public class MapTest {
 
         for (String key : keys) {
             Student student = studentMap.get(key);
-            System.out.println("key:"+ key + " val:" +student);
+            System.out.println("key:"+ key + " val:" + student);
         }
 
-        System.out.println(studentMap.values());
+        // values返回值的集合
+        // System.out.println(studentMap.values());
+
+        // entrySet返回key-value映射的集合
+        // System.out.println(studentMap.entrySet());
+
+        for (Map.Entry<String, Student> entry : studentMap.entrySet()) {
+            // System.out.println(entry);                        // 一个k=>value对象： 李四=name=李四 grade=90
+            // System.out.println(entry.getKey());
+            // System.out.println(entry.getValue());
+            System.out.println("key:"+ entry.getKey() + " val:" + entry.getValue());
+        }
     }
 }
 
