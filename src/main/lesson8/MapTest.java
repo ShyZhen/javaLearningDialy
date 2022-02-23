@@ -11,7 +11,9 @@ public class MapTest {
     public static void main(String[] args) {
         //func1();
         //func2();
-        func3();
+        //func3();
+        //func4();
+        func5();
     }
 
     // List是有序列表，如果有一个Student实例的List,要在List中根据name找到特定的Student实例，怎么处理？
@@ -88,7 +90,6 @@ public class MapTest {
 
         // keySet()方法返回的Set集合，它包含不重复的key
         String[] keys = studentMap.keySet().toArray(new String[0]);
-
         for (String key : keys) {
             Student student = studentMap.get(key);
             System.out.println("key:"+ key + " val:" + student);
@@ -107,6 +108,47 @@ public class MapTest {
             System.out.println("key:"+ entry.getKey() + " val:" + entry.getValue());
         }
     }
+
+    // 两个key应该是内容相同，但不一定是同一个对象。作为key获取的map值是一样的，但是他们两个key不是一个对象，无法直接==
+    public static void func4() {
+        Map<String, Integer> map = new HashMap<>();
+
+        String key1 = "aaa";
+        String key2 = new String("aaa");
+        map.put(key1, 12345);
+
+        System.out.println(map.get(key1));  // 12345
+        System.out.println(map.get(key2));  // 12345
+
+        System.out.println(key1 == key2);       // false
+        System.out.println(key1.equals(key2));  // true
+        System.out.println(map.get(key1) == map.get(key2));  // true
+    }
+
+    // 我们经常使用String作为key，因为String已经正确覆写了equals()方法。但如果我们放入的key是一个自己写的类，就必须保证正确覆写了equals()方法。
+    // HashMap为什么能通过key直接计算出value存储的索引? 相同的key对象（使用equals()判断时返回true）必须要计算出相同的索引，否则，相同的key每次取出的value就不一定对。
+    // 通过key计算索引的方式就是调用key对象的hashCode()方法，它返回一个int整数。HashMap正是通过这个方法直接定位key对应的value的索引，继而直接返回value。
+    // 作为key的对象必须正确覆写equals() 和 hashCode()方法。 （针对自己写的对象作为key，因为java的引用类型都实现了这些）
+    // 正确编写equals：找出需要比较的字段，引用类型使用`Objects.equals()`比较，基本类型使用`==`比较
+    public static void func5() {
+        String key1 = "aaa";
+        String key2 = new String("aaa");
+
+//        Integer a = 3;
+//        a.hashCode();
+
+        System.out.println(key1.equals(key2));  // true
+        System.out.println(key1 == key2);       // false
+        System.out.println(key1.hashCode());    // 96321
+        System.out.println(key2.hashCode());    // 96321
+    }
+
+    // HASH 冲突：不同对象算出来的hashcode一样：假设a和b的hashcode一样：
+    // - hashmap的值不会覆盖，当索引值相同时，在HashMap中实际存储的不是一个Student实例，而是一个List，包含两个entry，一个是a的映射，一个是b的映射。
+    // - 在查找的时候，比如map.get("a"),HashMap内部找到的其实是List<Entry<String, Student>>,还要遍历这个List,并找到一个key为a的Entry，才会返回对应的实例。
+    // - 在冲突的时候，最简单的解决办法是上面这种用List存储相同的key-value，如果冲突的概率越大，List就越长，Map的get方法效率就越低，所以尽量不同的对象hashCode尽量不相等。
+    // - hashCode编写的越好，HashMap工作效率越高。
+    // - 要key与hash同时匹配才会认为是同一个key
 }
 
 
