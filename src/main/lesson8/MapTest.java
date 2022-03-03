@@ -1,5 +1,6 @@
 package src.main.lesson8;
 
+import java.time.DayOfWeek;
 import java.util.*;
 
 /**
@@ -13,7 +14,8 @@ public class MapTest {
         //func2();
         //func3();
         //func4();
-        func5();
+        //func5();
+        func6();
     }
 
     // List是有序列表，如果有一个Student实例的List,要在List中根据name找到特定的Student实例，怎么处理？
@@ -149,9 +151,48 @@ public class MapTest {
     // - 在冲突的时候，最简单的解决办法是上面这种用List存储相同的key-value，如果冲突的概率越大，List就越长，Map的get方法效率就越低，所以尽量不同的对象hashCode尽量不相等。
     // - hashCode编写的越好，HashMap工作效率越高。
     // - 要key与hash同时匹配才会认为是同一个key
+
+
+
+
+    // 因为HashMap是一种通过对key计算hashCode()，通过空间换时间的方式，直接定位到value所在的内部数组的索引，因此，查找效率非常高
+
+    // 枚举类型 EnumMap
+    // 如果作为key的对象是enum类型,根据enum类型的key直接定位到内部数组的索引，并不需要计算hashCode()，不但效率最高，而且没有额外的空间浪费
+    // （因为枚举已经确定key了，并且没有重复，所以不需要再次计算hashCode）
+    public static void func6() {
+        Map<DayOfWeek, String> weekStringMap = new EnumMap<>(DayOfWeek.class);
+
+        weekStringMap.put(DayOfWeek.MONDAY, "周一难受上班");
+        weekStringMap.put(DayOfWeek.THURSDAY, "周二难受");
+        weekStringMap.put(DayOfWeek.FRIDAY, "周五舒服要放假");
+
+        System.out.println(weekStringMap);
+        System.out.println(weekStringMap.get(DayOfWeek.THURSDAY));
+
+
+        // 自定义枚举
+        Map<StudentType, String> studentTypeStringMap = new EnumMap<StudentType, String>(StudentType.class);
+
+        studentTypeStringMap.put(StudentType.BADBOY, "这个人是坏男生");
+        studentTypeStringMap.put(StudentType.GOODGIRL, "这个人是好女孩");
+
+        System.out.println(studentTypeStringMap);
+        System.out.println(studentTypeStringMap.get(StudentType.GOODGIRL));
+    }
+
 }
 
+// 自定义枚举
+enum StudentType {
+    GOODBOY,
 
+    GOODGIRL,
+
+    BADBOY,
+
+    BADGIRL,
+}
 
 
 
@@ -193,4 +234,12 @@ class Student {
     public String toString() {
         return "name="+getName()+" grade="+getGrade() + "\n";
     }
+
+//    public boolean equals(Object o) {
+//        if (o instanceof Student) {
+//            Student p = (Student) o;
+//            return Objects.equals(this.name, p.name);
+//        }
+//        return false;
+//    }
 }
