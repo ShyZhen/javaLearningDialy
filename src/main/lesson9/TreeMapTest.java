@@ -16,8 +16,14 @@ public class TreeMapTest {
         //func1();
         //func2();
         //func3();
-        func4();
-        func5();
+        //func4();
+        //func5();
+
+        TreeMapTest treeMapTest = new TreeMapTest();
+        //treeMapTest.func6();
+        //treeMapTest.func7();
+        //treeMapTest.func8();
+        treeMapTest.func9();
     }
 
     // SortedMap，它在内部会对Key进行排序。注意到SortedMap是接口，它的实现类是TreeMap。
@@ -109,6 +115,84 @@ public class TreeMapTest {
         properties.setProperty("admin_id", "99999");
         properties.store(new java.io.FileOutputStream(f1), "这是写入的properties注释");
     }
+
+    // 使用Set Set实际上相当于只存储key、不存储value的Map  【无序的】
+    // map存储key-value的映射，key是不能重复的; 如果我们只需要存储不重复的key，就可以使用Set
+    // Set 用于存储不重复的元素集合 (boolean) add remove contains
+    public void func6() {
+        Set<String> keySet = new HashSet<>();
+        keySet.add("adf");
+        keySet.add("adf");  // 返回false 不得重复，可以用于取出重复元素
+        keySet.add("123");
+        keySet.add("你好");
+        keySet.add("你好2写错了删除");
+        keySet.remove("你好2写错了删除");
+
+        System.out.println(keySet);                 // [adf, 123, 你好]
+        System.out.println(keySet.contains("ad"));  // false 元素不存在
+        System.out.println(keySet.contains("你好")); // true  元素存在
+        System.out.println(keySet.size());          // 3     一共4个元素
+    }
+
+    // TreeSet 【有序的】Set
+    // HashMap && HashSet   VS   TreeMap && TreeSet   VS   SortedMap && SortedSet
+    // Set实际上相当于只存储key、不存储value的Map
+    public void func7() {
+        Set<String> keySet = new TreeSet<>();
+        keySet.add("asdf");
+        keySet.add("bbbb");
+        keySet.add("cccc");
+        keySet.add("aacc");
+        keySet.add("1122");
+        keySet.add("1111");
+
+        System.out.println(keySet);    // [1111, 1122, aacc, asdf, bbbb, cccc]
+    }
+
+    // Integer 自定义排序 字段与规则  DESC
+    public void func8() {
+        Set<Integer> keySet = new TreeSet<Integer>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                if (o1 == o2) {
+                    return 0;
+                } else {
+                    return o1 > o2 ? -1 : 1;
+                }
+            }
+        });
+
+        keySet.add(432);
+        keySet.add(123);
+        keySet.add(542);
+        keySet.add(743);
+        keySet.add(999);
+        keySet.add(111);
+
+        System.out.println(keySet);    // [999, 743, 542, 432, 123, 111]
+    }
+
+    // String 自定义排序 字段与规则  DESC
+    // 用compareTo() 方法比较：字符串与对象进行比较。按字典顺序比较两个字符串。
+    public void func9() {
+        Set<String> keySet = new TreeSet<>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o2.compareTo(o1);
+            }
+        });
+
+        keySet.add("aassdf");
+        keySet.add("csdadf");
+        keySet.add("aaassdf");
+        keySet.add("csd");
+        keySet.add("zcv");
+        keySet.add("sdf3");
+
+        System.out.println(keySet);    // [zcv, sdf3, csdadf, csd, aassdf, aaassdf]
+    }
+
+
 }
 
 
